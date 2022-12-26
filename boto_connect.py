@@ -2,7 +2,7 @@ import boto3
 
 class Connection:
     list_of_keys = []
-    def __init__(self, self.__key):
+    def __init__(self, key: str):
         self.__key = ''
 
 
