@@ -1,22 +1,25 @@
 import boto3
 
 class Connection:
-    def __init__(self, self.key):
-        self.key = ''
+    list_of_keys = []
+    def __init__(self, self.__key):
+        self.__key = ''
 
-    def get(key: str) -> BytesIO:
+
+
+    def get(self, key: str) -> BytesIO:
         pass
 
-    def put(key: str, value: BytesIO):
+    def put(self, key: str, value: BytesIO):
+        pass 
+
+    def pop(self, key: str) -> BytesIO:
         pass
 
-    def pop(key: str) -> BytesIO:
+    def __getitem__(self, key: str) -> BytesIO:
         pass
 
-    def __getitem__(key: str) -> BytesIO:
-        pass
-
-    def __setitem__(key: str, value: BytesIO):
+    def __setitem__(self, key: str, value: BytesIO):
         pass
 
     def __delitem__(key: str):
@@ -26,8 +29,8 @@ class Connection:
         pass
 
     def keys(prefix: str ='') -> str:
-        pass
+        return self.__key
 
-    def items(prefix: str='') ->str:
+    def items(prefix: str='') -> tuple:
         pass
 
