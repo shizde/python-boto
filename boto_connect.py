@@ -1,4 +1,6 @@
 import boto3
+import uuid
+client_s3 = boto3.client('s3')
 
 class Connection:
     list_of_keys = []
