@@ -16,32 +16,44 @@ class S3(object):
 
 
     def get(self, key: str):
-        response = client.get_object(
-            Bucket=self.bucket_name,
-            Key=key
+        try:
+            response = client.get_object(
+                Bucket=self.bucket_name,
+                Key=key
             )
+            return response
+        except Exception(e):
+            return e
          
 
     def put(self, key: str, value: BytesIO):
-        response = client.put_object(
-            Bucket=self.bucket_name,
-            Key=key
-        ) 
+        try:
+            response = client.put_object(
+                Bucket=self.bucket_name,
+                Key=key
+            )
+        return "OK"
+        except Exception(e):
+            return e
 
     def pop(self, key: str) -> BytesIO:
-        response = client.delete_object(
-            Bucket=self.bucket_name,
-            Key=key
-        )
+        try:
+            get(key)
+            response = client.delete_object(
+                Bucket=self.bucket_name,
+                Key=key
+            )
+        except Exception(e):
+            return e
 
     def __getitem__(self, key: str) -> BytesIO:
-        pass
+        get(key)
 
     def __setitem__(self, key: str, value: BytesIO):
-        pass
+        put(key)
 
     def __delitem__(key: str):
-        pass
+        pop(key)
 
     def __contains__(key: str) -> bool:
         pass
