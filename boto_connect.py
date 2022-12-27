@@ -1,22 +1,38 @@
 import boto3
-import uuid
-client_s3 = boto3.client('s3')
+import io
 
-class Connection:
-    list_of_keys = []
-    def __init__(self, key: str):
-        self.__key = ''
+class S3(object):
+    """_summary_
+
+    Args:
+        object (_type_): _description_
+    """
+    bucket_name = "test-for-boto"
+
+    def __init__(self, *args, **kwargs):
+        region = self.kwargs.get('region_name', 'us-east-1')
+        self.bucket_name = self.kwargs.get('bucket_name', self.bucket_name)
+        self.conn = client('s3', region_name=region)
 
 
-
-    def get(self, key: str) -> BytesIO:
-        pass
+    def get(self, key: str):
+        response = client.get_object(
+            Bucket=self.bucket_name,
+            Key=key
+            )
+         
 
     def put(self, key: str, value: BytesIO):
-        pass 
+        response = client.put_object(
+            Bucket=self.bucket_name,
+            Key=key
+        ) 
 
     def pop(self, key: str) -> BytesIO:
-        pass
+        response = client.delete_object(
+            Bucket=self.bucket_name,
+            Key=key
+        )
 
     def __getitem__(self, key: str) -> BytesIO:
         pass
@@ -31,7 +47,7 @@ class Connection:
         pass
 
     def keys(prefix: str ='') -> str:
-        return self.__key
+        pass
 
     def items(prefix: str='') -> tuple:
         pass
