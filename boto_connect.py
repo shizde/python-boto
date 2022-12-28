@@ -110,9 +110,17 @@ class S3(object):
     # TODO : Multi-thread
     def items(self, prefix: str='') -> tuple:
         for item in self.conn.list_objects(Bucket=self.bucket_name)['Contents']:
-            for k in item:
-                if k == 'Key':
-                    yield (k, item[k])
+            if prefix:
+                if prefix in item['Key']:
+                    for k in item:
+                        if k == 'Key':
+                            yield (k, item[k])
+            else:
+                for k in item:
+                        if k == 'Key':
+                            yield (k, item[k])
+
+
 
 if __name__ == '__main__':
     test_dict = {'bucket_name':'test-for-boto','region_name':'eu-west-1'}
