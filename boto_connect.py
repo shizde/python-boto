@@ -2,45 +2,46 @@ import boto3
 
 class S3(object):
     """
-     A class used to represent an Animal
+     A class used to connect to a S3 Bucket and manage this interaction.
 
     ...
 
     Attributes
     ----------
-    bucket_name : str
-        a formatted string to print out what the animal says
-    region_name : str
-        the name of the animal
+    dict: 
+        bucket_name : str
+            the bucket name inside S3
+        region_name : str
+            the AWS region where the bucket is located
 
     Methods
     -------
     get(key: str)
-        Prints the animals name and what sound it makes
+        Retrieve an object from the S3 bucket using a given key
     
     put(key: str, value: str)
-        Prints the animals name and what sound it makes
+        Put a new object in the S3 bucket. Can also modift the content of and existing object
     
     pop(key: str) -> str
-        Prints the animals name and what sound it makes
+        Removes the object from the S3 bucket and returns it
     
     __getitem__(key: str) -> str
-        Prints the animals name and what sound it makes
+        Nicer interface for get()
     
     __setitem__(key: str, value: str)
-        Prints the animals name and what sound it makes
+        Nicer interface for put()
     
     __delitem__(key: str) -> None
-        Prints the animals name and what sound it makes
+        Nicer interface for pop(). Does not return anything
     
     __contains__(key: str) -> bool
-        Prints the animals name and what sound it makes
+        Checks if a given object exists inside the S3 bucket
     
     keys(prefix: str ='') -> str
-        Prints the animals name and what sound it makes
+        Generator that yields the keys from the S3 bucket. Option to filter with a prefix
     
     items(prefix: str='') -> tuple
-        Prints the animals name and what sound it makes
+        Generator that yields tuples with key-value pairs.
     
     """
     def __init__(self, **kwargs):
