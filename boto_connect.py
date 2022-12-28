@@ -172,5 +172,26 @@ class S3(object):
 
 
 if __name__ == '__main__':
+    # TEST PROCEDURE
+    ## Setting up the connection and files to be created, retrieved and deleted
+    file_for_tests = 'dummy_file_for.txt'
     test_dict = {'bucket_name':'test-for-boto','region_name':'eu-west-1'}
     test = S3(**test_dict)
+    ## First set of tests: 'main' functions
+    print(test.put("main_file.txt","This file will not be deleted for Third set of tests."))
+    print(test.put(file_for_tests,"some text inside of it"))
+    print(test.get(file_for_tests))
+    print(test.pop(file_for_tests))
+    ## Second set of tests: 'interface' functions
+    print(test.__setitem__(file_for_tests,"new content inside of the file"))
+    print(test.__getitem__(file_for_tests))
+    print(test.__delitem__(file_for_tests))
+    ## Third set of tests: check functions
+    print(test.put(file_for_tests,"some text inside of it"))
+    print(test.__contains__(file_for_tests))
+    print(test.__contains__("dummy_name_nor_present.txt"))
+    print(next(test.keys("")))
+    print(next(test.keys(file_for_tests)))
+    print(next(test.items("")))
+    print(next(test.items(file_for_tests)))
+
