@@ -47,13 +47,16 @@ class S3(object):
             return e
 
     def __getitem__(self, key: str) -> str:
-        self.get(key)
+        response = self.get(key)
+        return response
 
     def __setitem__(self, key: str, value: str):
-        self.put(key)
+        response = self.put(key, value)
+        return response
 
-    def __delitem__(key: str):
-        self.pop(key)
+    def __delitem__(self, key: str):
+        response = self.pop(key)
+        return response
 
     def __contains__(key: str) -> bool:
         pass
