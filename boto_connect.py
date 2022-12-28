@@ -1,6 +1,4 @@
 import boto3
-import io
-
 
 class S3(object):
     """_summary_
