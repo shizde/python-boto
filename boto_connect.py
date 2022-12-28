@@ -10,9 +10,9 @@ class S3(object):
     ----------
     dict: 
         bucket_name : str
-            the bucket name inside S3
+            The bucket name inside S3
         region_name : str
-            the AWS region where the bucket is located
+            The AWS region where the bucket is located
 
     Methods
     -------
@@ -45,11 +45,25 @@ class S3(object):
     
     """
     def __init__(self, **kwargs):
+        """
+        Parameters
+        ----------
+        bucket_name : str
+            The bucket name inside S3
+        region : str
+            The AWS region where the bucket is located
+        """
         self.bucket_name = kwargs.get('bucket_name', 'test-for-boto')
         self.region      = kwargs.get('region_name', 'eu-west-1')
         self.conn        = boto3.client('s3', region_name=self.region)
 
     def get(self, key: str):
+        """
+        Parameters
+        ----------
+        key : str
+            S3 key from the object that must be retrieved
+        """
         try:
             response = self.conn.get_object(
                 Bucket=self.bucket_name,
@@ -60,6 +74,14 @@ class S3(object):
             return e 
 
     def put(self, key: str, value: str):
+        """
+        Parameters
+        ----------
+        key : str
+            S3 key from the object that must be sent
+        value : str
+            Content of the object being sent
+        """
         try:
             response = self.conn.put_object(
                 Body=value,
@@ -71,6 +93,12 @@ class S3(object):
             return e
 
     def pop(self, key: str) -> str:
+        """
+        Parameters
+        ----------
+        key : str
+            S3 key from the object that must be deleted
+        """
         try:
             retrieve = self.get(key)
             response = self.conn.delete_object(
@@ -82,16 +110,25 @@ class S3(object):
             return e
 
     def __getitem__(self, key: str) -> str:
+        """ Nicer interface for get() """
         return self.get(key)
 
     def __setitem__(self, key: str, value: str):
+        """ Nicer interface for put() """
         return self.put(key, value)
 
     def __delitem__(self, key: str) -> None:
+        """ Nicer interface for pop(). Does not return anything """
         self.pop(key)
         return None
 
     def __contains__(self, key: str) -> bool:
+        """
+        Parameters
+        ----------
+        key : str
+            S3 key from the object that will be checked if exists inside the S3 bucket
+        """
         check = False
         for item in self.conn.list_objects(Bucket=self.bucket_name)['Contents']:
             if key == item['Key']:
@@ -100,6 +137,12 @@ class S3(object):
         return check
 
     def keys(self, prefix: str ='') -> str:
+        """
+        Parameters
+        ----------
+        prefix : str
+            Part of the key for the object that will be retrieved. Optional.
+        """
         for item in self.conn.list_objects(Bucket=self.bucket_name)['Contents']:
             if prefix:
                 if prefix in item['Key']:
@@ -109,6 +152,12 @@ class S3(object):
 
     # TODO : Multi-thread
     def items(self, prefix: str='') -> tuple:
+        """
+        Parameters
+        ----------
+        prefix : str
+            Part of the key for the object that will be retrieved. Optional.
+        """
         for item in self.conn.list_objects(Bucket=self.bucket_name)['Contents']:
             if prefix:
                 if prefix in item['Key']:
