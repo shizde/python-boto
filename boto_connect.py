@@ -22,37 +22,38 @@ class S3(object):
             )
             return response
         except Exception as e:
-            return e
-         
+            return e 
 
     def put(self, key: str, value: str):
         try:
-            response = client.put_object(
+            response = self.conn.put_object(
+                Body=value,
                 Bucket=self.bucket_name,
                 Key=key
             )
-            return "OK"
+            return response
         except Exception as e:
             return e
 
     def pop(self, key: str) -> str:
         try:
-            get(key)
-            response = client.delete_object(
+            retrieve = self.get(key)
+            response = self.conn.delete_object(
                 Bucket=self.bucket_name,
                 Key=key
             )
+            return retrieve
         except Exception as e:
             return e
 
     def __getitem__(self, key: str) -> str:
-        get(key)
+        self.get(key)
 
     def __setitem__(self, key: str, value: str):
-        put(key)
+        self.put(key)
 
     def __delitem__(key: str):
-        pop(key)
+        self.pop(key)
 
     def __contains__(key: str) -> bool:
         pass
