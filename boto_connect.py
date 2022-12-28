@@ -57,6 +57,7 @@ class S3(object):
         self.region      = kwargs.get('region_name', 'eu-west-1')
         self.conn        = boto3.client('s3', region_name=self.region)
 
+    # TODO: BytesIO conversion
     def get(self, key: str):
         """
         Parameters
