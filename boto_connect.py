@@ -47,26 +47,40 @@ class S3(object):
             return e
 
     def __getitem__(self, key: str) -> str:
-        response = self.get(key)
-        return response
+        return self.get(key)
 
     def __setitem__(self, key: str, value: str):
-        response = self.put(key, value)
-        return response
+        return self.put(key, value)
 
-    def __delitem__(self, key: str):
-        response = self.pop(key)
-        return response
+    def __delitem__(self, key: str) -> None:
+        self.pop(key)
+        return None
 
-    def __contains__(key: str) -> bool:
-        pass
+    def list_bucket_objects(self, key: str='') -> list:
+        bucket_objects = []
+        for item in self.conn.list_objects(Bucket=self.bucket_name)['Contents']:
+            if key:
+                if key in item:
+                    bucket_objects.append(item['Key'])
+            else:
+                bucket_objects.append(item['Key'])
+        return bucket_objects
 
-    def keys(prefix: str ='') -> str:
-        pass
+    def __contains__(self, key: str) -> bool:
+        if key in self.list_bucket_objects():
+            return True
+        else: 
+            return False
+
+    def keys(self, prefix: str ='') -> str:
+        if prefix:
+            list_bucket_objects(prefix)
+        else:
+            list_bucket_objects()
 
     def items(prefix: str='') -> tuple:
         pass
 
 if __name__ == '__main__':
-    test_dict = {'bucket_name':'test-FOR-boto','region_name':'EU-west-1'}
+    test_dict = {'bucket_name':'test-for-boto','region_name':'eu-west-1'}
     test = S3(**test_dict)
